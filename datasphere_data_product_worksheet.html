@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Product Readiness — SAP Datasphere</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a18;
+    --ink-2: #4a4a46;
+    --ink-3: #8a8a84;
+    --ink-4: #b8b8b2;
+    --surface: #faf9f7;
+    --surface-2: #f2f1ed;
+    --surface-3: #e8e7e1;
+    --border: #ddddd6;
+    --border-2: #c8c8c0;
+    --white: #ffffff;
+    --accent: #1e5c8a;
+    --accent-light: #e8f0f7;
+    --accent-mid: #4a87b8;
+    --s1: #1e5c8a; --s1-bg: #e8f0f7; --s1-mid: #4a87b8;
+    --s2: #2d7a5e; --s2-bg: #e6f4ef; --s2-mid: #4a9e7d;
+    --s3: #8a5a1e; --s3-bg: #f7f0e4; --s3-mid: #b8823d;
+    --s4: #7a2d5e; --s4-bg: #f4e6ef; --s4-mid: #a84d82;
+    --s5: #5a1e8a; --s5-bg: #ede6f4; --s5-mid: #8447b8;
+    --s6: #1e7a6e; --s6-bg: #e4f4f2; --s6-mid: #3da899;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    background: var(--surface);
+    color: var(--ink);
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .header-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .header-logo span { color: var(--accent); }
+  .header-tag {
+    font-size: 11px;
+    color: var(--ink-3);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .progress-strip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+  .progress-dots {
+    display: flex;
+    gap: 4px;
+  }
+  .pdot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background 0.3s;
+  }
+  .pdot.done { background: var(--accent); }
+
+  /* HERO */
+  .hero {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 2rem 2.5rem;
+  }
+  .hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.1;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-body {
+    font-size: 16px;
+    color: var(--ink-2);
+    max-width: 620px;
+    line-height: 1.75;
+    margin-bottom: 1.75rem;
+  }
+  .hero-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .hero-step-pill {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px 5px 8px;
+    font-size: 12px;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+  }
+  .hero-step-pill:hover {
+    background: var(--white);
+    border-color: var(--border-2);
+    color: var(--ink);
+  }
+  .pill-num {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-size: 10px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* MAIN LAYOUT */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  /* STEP CARDS */
+  .step-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .step-card:hover { box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
+
+  .step-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    user-select: none;
+    border-left: 3px solid transparent;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .step-header:hover { background: var(--surface); }
+
+  .step-card[data-step="1"] .step-header { border-left-color: var(--s1); }
+  .step-card[data-step="2"] .step-header { border-left-color: var(--s2); }
+  .step-card[data-step="3"] .step-header { border-left-color: var(--s3); }
+  .step-card[data-step="4"] .step-header { border-left-color: var(--s4); }
+  .step-card[data-step="5"] .step-header { border-left-color: var(--s5); }
+  .step-card[data-step="6"] .step-header { border-left-color: var(--s6); }
+
+  .step-badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-card[data-step="1"] .step-badge { background: var(--s1-bg); color: var(--s1); }
+  .step-card[data-step="2"] .step-badge { background: var(--s2-bg); color: var(--s2); }
+  .step-card[data-step="3"] .step-badge { background: var(--s3-bg); color: var(--s3); }
+  .step-card[data-step="4"] .step-badge { background: var(--s4-bg); color: var(--s4); }
+  .step-card[data-step="5"] .step-badge { background: var(--s5-bg); color: var(--s5); }
+  .step-card[data-step="6"] .step-badge { background: var(--s6-bg); color: var(--s6); }
+
+  .step-meta { flex: 1; }
+  .step-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .step-desc {
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+  .step-chevron {
+    font-size: 18px;
+    color: var(--ink-4);
+    transition: transform 0.25s;
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+  .step-chevron.open { transform: rotate(90deg); }
+
+  .step-body {
+    display: none;
+    padding: 0 1.5rem 1.5rem;
+    border-top: 1px solid var(--border);
+    animation: fadeIn 0.2s ease;
+  }
+  .step-body.open { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* INSIGHT BOX */
+  .insight {
+    display: flex;
+    gap: 12px;
+    padding: 1rem 1.1rem;
+    border-radius: var(--radius-sm);
+    margin: 1.25rem 0 1rem;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .insight-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .insight-content { color: var(--ink-2); }
+  .insight-content strong { color: var(--ink); font-weight: 500; }
+
+  .step-card[data-step="1"] .insight { background: var(--s1-bg); }
+  .step-card[data-step="2"] .insight { background: var(--s2-bg); }
+  .step-card[data-step="3"] .insight { background: var(--s3-bg); }
+  .step-card[data-step="4"] .insight { background: var(--s4-bg); }
+  .step-card[data-step="5"] .insight { background: var(--s5-bg); }
+  .step-card[data-step="6"] .insight { background: var(--s6-bg); }
+
+  /* PITFALL BOX */
+  .pitfall {
+    background: #fef6f0;
+    border: 1px solid #f5d5be;
+    border-radius: var(--radius-sm);
+    padding: 0.85rem 1rem;
+    font-size: 13px;
+    color: #7a3a12;
+    margin: 1rem 0;
+  }
+  .pitfall strong { font-weight: 500; }
+
+  /* FIELDS */
+  .field-group { margin-bottom: 1.25rem; }
+  .field-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-3);
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+  .field-hint {
+    font-size: 12px;
+    color: var(--ink-4);
+    margin-bottom: 0.5rem;
+  }
+  textarea, input[type="text"] {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.65rem 0.85rem;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    line-height: 1.6;
+  }
+  textarea:focus, input[type="text"]:focus {
+    border-color: var(--accent-mid);
+    box-shadow: 0 0 0 3px rgba(74, 135, 184, 0.12);
+    background: var(--white);
+  }
+  textarea::placeholder, input::placeholder { color: var(--ink-4); }
+
+  /* OPTION PILLS */
+  .options-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-3);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  .options-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 1.25rem;
+  }
+  .opt {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 13px;
+    font-size: 13px;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .opt:hover { background: var(--white); border-color: var(--border-2); color: var(--ink); }
+  .opt.sel { font-weight: 500; }
+  .step-card[data-step="1"] .opt.sel { background: var(--s1-bg); border-color: var(--s1-mid); color: var(--s1); }
+  .step-card[data-step="2"] .opt.sel { background: var(--s2-bg); border-color: var(--s2-mid); color: var(--s2); }
+  .step-card[data-step="3"] .opt.sel { background: var(--s3-bg); border-color: var(--s3-mid); color: var(--s3); }
+  .step-card[data-step="4"] .opt.sel { background: var(--s4-bg); border-color: var(--s4-mid); color: var(--s4); }
+  .step-card[data-step="5"] .opt.sel { background: var(--s5-bg); border-color: var(--s5-mid); color: var(--s5); }
+  .step-card[data-step="6"] .opt.sel { background: var(--s6-bg); border-color: var(--s6-mid); color: var(--s6); }
+
+  /* CHECKLIST */
+  .check-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-3);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  .checklist {
+    list-style: none;
+    margin-bottom: 1.25rem;
+  }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 5px 0;
+    font-size: 13.5px;
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--surface-3);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  .checklist li span { flex: 1; line-height: 1.5; }
+  .checklist li .sub {
+    font-size: 11.5px;
+    color: var(--ink-4);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* EXAMPLE BLOCK */
+  .examples-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.5rem;
+  }
+  .examples-toggle {
+    font-size: 12px;
+    color: var(--accent);
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .examples-toggle:hover { text-decoration: underline; }
+  .examples-block {
+    display: none;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.85rem 1rem;
+    margin-bottom: 1rem;
+  }
+  .examples-block.open { display: block; }
+  .examples-block ul {
+    padding-left: 1.25rem;
+    margin: 0;
+  }
+  .examples-block li {
+    font-size: 13px;
+    color: var(--ink-2);
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .examples-block li:last-child { margin-bottom: 0; }
+
+  /* TWO COL */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  @media (max-width: 580px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* READINESS MATRIX */
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+  @media (max-width: 580px) { .matrix-grid { grid-template-columns: 1fr; } }
+  .matrix-cell {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem;
+  }
+  .matrix-cell-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.35rem;
+  }
+  .matrix-cell textarea {
+    min-height: 60px;
+    font-size: 13px;
+  }
+
+  /* SECTION DIVIDER */
+  .section-divider {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-4);
+    margin: 1.5rem 0 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* RATING SCALE */
+  .rating-wrap { margin-bottom: 1.25rem; }
+  .rating-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--surface-3);
+  }
+  .rating-row:last-child { border-bottom: none; }
+  .rating-label { font-size: 13px; color: var(--ink-2); flex: 1; }
+  .rating-btns { display: flex; gap: 4px; }
+  .r-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+  .r-btn:hover { border-color: var(--border-2); color: var(--ink); }
+  .r-btn.sel { background: var(--accent); border-color: var(--accent); color: white; }
+
+  /* SUMMARY SECTION */
+  .summary-section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    margin-top: 2rem;
+  }
+  .summary-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+  .summary-body {
+    font-size: 14px;
+    color: var(--ink-2);
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+  }
+  .summary-output {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1.25rem;
+    font-size: 13.5px;
+    color: var(--ink-2);
+    line-height: 1.8;
+    min-height: 80px;
+    white-space: pre-wrap;
+    margin-bottom: 1.25rem;
+    display: none;
+  }
+  .summary-output.visible { display: block; }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0.6rem 1.1rem;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid;
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+  .btn-primary:hover { background: #174a70; border-color: #174a70; }
+  .btn-secondary {
+    background: var(--white);
+    border-color: var(--border-2);
+    color: var(--ink);
+  }
+  .btn-secondary:hover { background: var(--surface-2); }
+  .btn-ghost {
+    background: transparent;
+    border-color: transparent;
+    color: var(--accent);
+    padding-left: 0;
+    font-size: 13px;
+  }
+  .btn-ghost:hover { text-decoration: underline; }
+  .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 1rem;
+  }
+
+  /* FOOTER */
+  .site-footer {
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    margin-top: 1rem;
+  }
+  .footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    color: var(--ink);
+  }
+  .footer-brand span { color: var(--accent); }
+  .footer-meta {
+    font-size: 12px;
+    color: var(--ink-3);
+    line-height: 1.6;
+  }
+  .footer-cta {
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    padding: 6px 14px;
+    border-radius: 20px;
+    transition: all 0.15s;
+  }
+  .footer-cta:hover { background: var(--accent); color: white; }
+
+  /* PRINT */
+  @media print {
+    .site-header, .site-footer, .btn-row, .summary-btn-area { display: none; }
+    .step-body { display: block !important; }
+  }
+
+  /* PROGRESS GLOBAL */
+  .global-progress {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .gp-bar-wrap { flex: 1; min-width: 180px; }
+  .gp-label { font-size: 13px; color: var(--ink-2); margin-bottom: 6px; }
+  .gp-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .gp-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.5s ease;
+  }
+  .gp-steps {
+    display: flex;
+    gap: 6px;
+  }
+  .gp-step {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .gp-step.active { border-color: var(--accent); color: var(--accent); }
+  .gp-step.complete { background: var(--accent); border-color: var(--accent); color: white; }
+
+  /* TOOLTIP */
+  .tooltip-wrap { position: relative; display: inline-block; }
+  .tooltip-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--border);
+    color: var(--ink-3);
+    font-size: 10px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: help;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+  .tooltip-box {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: white;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    width: 220px;
+    z-index: 10;
+    text-align: left;
+    font-weight: 400;
+  }
+  .tooltip-wrap:hover .tooltip-box { display: block; }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .hero { padding: 2rem 1.25rem; }
+    .main { padding: 1.5rem 1.25rem 3rem; }
+    .step-header { padding: 1rem 1.1rem; }
+    .step-body { padding: 0 1.1rem 1.25rem; }
+    .header-tag { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <span class="header-logo">Empha<span>sys</span></span>
+      <span class="header-tag">SAP Data &amp; Intelligence</span>
+    </div>
+    <div class="progress-strip">
+      <span id="hdr-prog-text" style="font-size:12px;color:var(--ink-3);">0 of 6 steps</span>
+      <div class="progress-dots" id="hdr-dots">
+        <div class="pdot" id="pd1"></div>
+        <div class="pdot" id="pd2"></div>
+        <div class="pdot" id="pd3"></div>
+        <div class="pdot" id="pd4"></div>
+        <div class="pdot" id="pd5"></div>
+        <div class="pdot" id="pd6"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">SAP Datasphere · Data Product Readiness</p>
+    <h1 class="hero-title">Your first governed<br><em>data product</em> — step by step</h1>
+    <p class="hero-body">This worksheet walks you through all six steps to creating a governed, reusable data product in SAP Datasphere. It's built for medtech and clinical teams — not just SAP consultants. Work through each step at your own pace. Your inputs stay in this browser tab.</p>
+    <div class="hero-steps">
+      <a href="#step1" class="hero-step-pill"><span class="pill-num">1</span>Define entity</a>
+      <a href="#step2" class="hero-step-pill"><span class="pill-num">2</span>Create a space</a>
+      <a href="#step3" class="hero-step-pill"><span class="pill-num">3</span>Connect source</a>
+      <a href="#step4" class="hero-step-pill"><span class="pill-num">4</span>Build data model</a>
+      <a href="#step5" class="hero-step-pill"><span class="pill-num">5</span>Expose &amp; publish</a>
+      <a href="#step6" class="hero-step-pill"><span class="pill-num">6</span>Consume it</a>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- GLOBAL PROGRESS -->
+  <div class="global-progress">
+    <div class="gp-bar-wrap">
+      <div class="gp-label" id="gp-label">Start by opening Step 1 below</div>
+      <div class="gp-bar"><div class="gp-fill" id="gp-fill"></div></div>
+    </div>
+    <div class="gp-steps">
+      <div class="gp-step" id="gs1" onclick="openStep('step1')">1</div>
+      <div class="gp-step" id="gs2" onclick="openStep('step2')">2</div>
+      <div class="gp-step" id="gs3" onclick="openStep('step3')">3</div>
+      <div class="gp-step" id="gs4" onclick="openStep('step4')">4</div>
+      <div class="gp-step" id="gs5" onclick="openStep('step5')">5</div>
+      <div class="gp-step" id="gs6" onclick="openStep('step6')">6</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       STEP 1 — DEFINE YOUR BUSINESS ENTITY
+  ═══════════════════════════════════════════════════ -->
+  <div class="step-card" data-step="1" id="step1">
+    <div class="step-header" onclick="toggle('step1')">
+      <div class="step-badge">1</div>
+      <div class="step-meta">
+        <div class="step-name">Define your business entity</div>
+        <div class="step-desc">Start with the question, not the data</div>
+      </div>
+      <div class="step-chevron" id="chev-step1">›</div>
+    </div>
+    <div class="step-body" id="body-step1">
+      <div class="insight">
+        <span class="insight-icon">💡</span>
+        <div class="insight-content">
+          <strong>Why step 1 is the hardest:</strong> Every SAP team wants to jump into Datasphere and start connecting tables. The discipline of starting with a business question — not a technical one — is what separates a useful data product from a technically correct dataset nobody uses. The business question is your anchor. Everything else follows from it.
+        </div>
+      </div>
+
+      <div class="pitfall">
+        <strong>Common mistake:</strong> Defining the entity as a table name ("Sales Invoice Data") rather than a business outcome ("Revenue performance by product and account"). The entity name should mean something to someone in finance, sales or clinical ops — not just a data engineer.
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">The decision your organisation is trying to make</label>
+        <div class="field-hint">Write it as a question. Who needs to make what decision, using what data?</div>
+        <textarea id="s1-decision" rows="3" placeholder="e.g. Which surgical product categories are growing by account and surgical specialty, and where are we losing share to competitors?"></textarea>
+      </div>
+
+      <div class="examples-row">
+        <button class="examples-toggle" onclick="toggleEx('ex1')">Show medtech examples ▾</button>
+      </div>
+      <div class="examples-block" id="ex1">
+        <ul>
+          <li><strong>Commercial:</strong> Which accounts are buying across multiple product categories vs. single-category, and what's the revenue gap if we cross-sold?</li>
+          <li><strong>Clinical education:</strong> Which HCPs have received training in the last 12 months but show zero or declining product usage — and why?</li>
+          <li><strong>Supply chain:</strong> What is our instrument loan set utilisation rate by hospital and specialty, and which sets haven't moved in 90+ days?</li>
+          <li><strong>Finance:</strong> How does our actual vs. plan revenue compare by product family, sales rep and quarter — with prior year as context?</li>
+          <li><strong>Regulatory:</strong> Which products are approaching end of shelf life across all consignment locations, and what is the write-off exposure?</li>
+        </ul>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Business entity name <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">This becomes the name of your data product in the Data Marketplace. Make it business-readable — "Account Revenue by Product" not "ZSD_ACC_REV_V1".</span></span></label>
+        <input type="text" id="s1-entity" placeholder="e.g. Account Revenue by Product Hierarchy  |  HCP Clinical Engagement  |  Loan Set Utilisation">
+      </div>
+
+      <div class="section-divider">Consumers and stakeholders</div>
+
+      <label class="options-label">Who are the primary consumers of this data product?</label>
+      <div class="options-grid" id="opts-s1-consumer">
+        <div class="opt" onclick="toggleOpt(this)">Sales leadership</div>
+        <div class="opt" onclick="toggleOpt(this)">Clinical education team</div>
+        <div class="opt" onclick="toggleOpt(this)">Product management</div>
+        <div class="opt" onclick="toggleOpt(this)">Finance / commercial ops</div>
+        <div class="opt" onclick="toggleOpt(this)">Regulatory / quality</div>
+        <div class="opt" onclick="toggleOpt(this)">Supply chain / logistics</div>
+        <div class="opt" onclick="toggleOpt(this)">Hospital / external partner</div>
+        <div class="opt" onclick="toggleOpt(this)">Executive leadership</div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Named stakeholder who owns the business question</label>
+        <div class="field-hint">This person validates what "correct" looks like when you test the model. Without them, you're guessing.</div>
+        <input type="text" id="s1-owner" placeholder="Name, title, team — and when you can get 30 mins with them">
+      </div>
+
+      <div class="section-divider">Scope and granularity</div>
+
+      <label class="options-label">What is the primary time grain of this data product?</label>
+      <div class="options-grid" id="opts-s1-grain">
+        <div class="opt" onclick="singleOpt(this, 'opts-s1-grain')">Transaction level (every record)</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s1-grain')">Daily</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s1-grain')">Weekly</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s1-grain')">Monthly</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s1-grain')">Quarterly</div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">What is explicitly OUT of scope for version 1?</label>
+        <div class="field-hint">Being clear about exclusions prevents scope creep and helps you ship something useful quickly.</div>
+        <textarea id="s1-outofscope" rows="2" placeholder="e.g. No consignment stock, no intercompany transactions, APAC only for now, no forecast data..."></textarea>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">How will you know if this data product is being used and trusted?</label>
+        <div class="field-hint">Define your success criteria before you build — otherwise "done" never arrives.</div>
+        <textarea id="s1-success" rows="2" placeholder="e.g. Weekly active users in SAC, replaces the Monday morning Excel file, finance signs off on revenue numbers..."></textarea>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       STEP 2 — CREATE A SPACE
+  ═══════════════════════════════════════════════════ -->
+  <div class="step-card" data-step="2" id="step2">
+    <div class="step-header" onclick="toggle('step2')">
+      <div class="step-badge">2</div>
+      <div class="step-meta">
+        <div class="step-name">Create a space</div>
+        <div class="step-desc">Define the governance boundary for your domain</div>
+      </div>
+      <div class="step-chevron" id="chev-step2">›</div>
+    </div>
+    <div class="step-body" id="body-step2">
+      <div class="insight">
+        <span class="insight-icon">💡</span>
+        <div class="insight-content">
+          <strong>What spaces actually are:</strong> A Space is a logical container in Datasphere — it controls who can access data, how much compute is available for queries, and where the governance boundary sits. Think of it as a department's data workspace. Finance runs their space. Commercial runs theirs. They can share data products across spaces via the Data Marketplace, but each team governs their own house.
+        </div>
+      </div>
+
+      <div class="pitfall">
+        <strong>Common mistake:</strong> Creating one giant space for everything, or creating a new space per project. One space per business domain is the right unit — broad enough to share, narrow enough to govern. Start with one space for your first data product. You can always create more once you understand the patterns.
+      </div>
+
+      <div class="section-divider">Domain assignment</div>
+
+      <label class="options-label">Which business domain does this data product belong to?</label>
+      <div class="options-grid" id="opts-s2-domain">
+        <div class="opt" onclick="singleOpt(this, 'opts-s2-domain')">Commercial / Sales</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s2-domain')">Clinical Education</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s2-domain')">Finance</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s2-domain')">Supply Chain</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s2-domain')">Regulatory / Quality</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s2-domain')">Operations</div>
+      </div>
+
+      <div class="two-col">
+        <div class="field-group">
+          <label class="field-label">Proposed space name</label>
+          <input type="text" id="s2-spacename" placeholder="e.g. COMMERCIAL_AU  |  CLINICAL_ED">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Space owner (name + role)</label>
+          <input type="text" id="s2-spaceowner" placeholder="Person accountable for data quality and access">
+        </div>
+      </div>
+
+      <div class="section-divider">Access and permissions</div>
+
+      <label class="check-label">Who needs access — and what kind?</label>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox">
+          <span>Data builders <span class="sub">Can create views, models, data flows. Usually the data team or a dedicated analyst.</span></span>
+        </li>
+        <li>
+          <input type="checkbox">
+          <span>Data integrators <span class="sub">Can manage connections and replication flows. Usually IT or a Basis/integration team member.</span></span>
+        </li>
+        <li>
+          <input type="checkbox">
+          <span>Viewers / consumers <span class="sub">Can read data and consume published data products. Usually business users accessing via SAC or other tools.</span></span>
+        </li>
+        <li>
+          <input type="checkbox">
+          <span>Space administrator <span class="sub">Manages users, roles and space configuration. Should be a named individual, not a shared account.</span></span>
+        </li>
+      </ul>
+
+      <div class="field-group">
+        <label class="field-label">Named individuals who need access in week 1</label>
+        <textarea id="s2-users" rows="2" placeholder="List names and roles — these become your Space members on day one..."></textarea>
+      </div>
+
+      <div class="section-divider">Data sensitivity and compliance</div>
+
+      <label class="check-label">Tick everything that applies to data in this space</label>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>Contains HCP (healthcare professional) personal information <span class="sub">Names, DEA/AHPRA numbers, practice addresses — privacy obligations apply</span></span></li>
+        <li><input type="checkbox"><span>Contains patient-level data <span class="sub">Even de-identified, this may trigger TGA or ethical review requirements</span></span></li>
+        <li><input type="checkbox"><span>Contains commercially sensitive pricing or contract terms <span class="sub">Restrict to finance + senior commercial only</span></span></li>
+        <li><input type="checkbox"><span>Subject to hospital or GPO data sharing agreements <span class="sub">Check whether hospital usage data can be stored in a cloud system</span></span></li>
+        <li><input type="checkbox"><span>Needs to be accessible to external parties (distributors, partners) <span class="sub">Requires additional Data Marketplace governance controls</span></span></li>
+        <li><input type="checkbox"><span>Subject to SOX, audit or regulatory reporting requirements <span class="sub">Data lineage and change history will be important</span></span></li>
+      </ul>
+
+      <div class="section-divider">Resource allocation</div>
+
+      <label class="options-label">Expected data volume in this space (helps size storage allocation)</label>
+      <div class="options-grid" id="opts-s2-vol">
+        <div class="opt" onclick="singleOpt(this, 'opts-s2-vol')">Small (&lt; 5GB)</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s2-vol')">Medium (5–50GB)</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s2-vol')">Large (50–500GB)</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s2-vol')">Very large (500GB+)</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s2-vol')">Unknown — need assessment</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       STEP 3 — CONNECT YOUR SOURCE
+  ═══════════════════════════════════════════════════ -->
+  <div class="step-card" data-step="3" id="step3">
+    <div class="step-header" onclick="toggle('step3')">
+      <div class="step-badge">3</div>
+      <div class="step-meta">
+        <div class="step-name">Connect your source</div>
+        <div class="step-desc">Bring the right data into your space</div>
+      </div>
+      <div class="step-chevron" id="chev-step3">›</div>
+    </div>
+    <div class="step-body" id="body-step3">
+      <div class="insight">
+        <span class="insight-icon">💡</span>
+        <div class="insight-content">
+          <strong>Live vs. replication — the key decision:</strong> A live connection queries the source system in real time — great for current data, but it puts load on your SAP system and can't combine data from multiple sources easily. Replication copies data into Datasphere on a schedule — better for complex transformations, multi-source joins, and production workloads. Most medtech organisations start with replication for reliability, then layer in live connections where real-time matters.
+        </div>
+      </div>
+
+      <div class="pitfall">
+        <strong>Common mistake:</strong> Pulling raw tables directly without using available semantic extractions. For S/4HANA, CDS (Core Data Services) views are pre-built, semantically labelled extractions — they save weeks of data modelling work. Always check what CDS views exist for your use case before building joins from scratch.
+      </div>
+
+      <div class="section-divider">Primary SAP source</div>
+
+      <label class="options-label">What is your primary SAP system?</label>
+      <div class="options-grid" id="opts-s3-sap">
+        <div class="opt" onclick="singleOpt(this, 'opts-s3-sap')">S/4HANA Cloud (Public)</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s3-sap')">S/4HANA Cloud (Private)</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s3-sap')">S/4HANA On-Premise</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s3-sap')">ECC (legacy SAP)</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s3-sap')">BW/4HANA</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s3-sap')">Not on SAP yet</div>
+      </div>
+
+      <label class="options-label">Preferred connection method for SAP data</label>
+      <div class="options-grid" id="opts-s3-conn">
+        <div class="opt" onclick="singleOpt(this, 'opts-s3-conn')">CDS views (recommended for S/4)</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s3-conn')">SLT replication (ECC / legacy)</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s3-conn')">BW Bridge (if on BW/4HANA)</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s3-conn')">ODP (Operational Data Provisioning)</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s3-conn')">Not sure — need guidance</div>
+      </div>
+
+      <div class="section-divider">Non-SAP sources</div>
+
+      <label class="check-label">Which non-SAP sources need to feed into this data product?</label>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>Salesforce / CRM <span class="sub">Opportunity pipeline, account contacts, activity history</span></span></li>
+        <li><input type="checkbox"><span>Clinical LMS or training platform <span class="sub">Course completions, certification status, HCP training records</span></span></li>
+        <li><input type="checkbox"><span>Hospital usage / implant data <span class="sub">EDI feeds or manual uploads from hospital procurement systems</span></span></li>
+        <li><input type="checkbox"><span>Excel / manual spreadsheets <span class="sub">Territory plans, budget files, commission calculators — these need a migration path</span></span></li>
+        <li><input type="checkbox"><span>Warehouse / 3PL / inventory system <span class="sub">Consignment stock, loan sets, expiry tracking</span></span></li>
+        <li><input type="checkbox"><span>Tender / contract management system <span class="sub">GPO contracts, hospital pricing agreements</span></span></li>
+        <li><input type="checkbox"><span>Market data / MTAA / competitive data <span class="sub">External reference data for share-of-market analysis</span></span></li>
+      </ul>
+
+      <div class="field-group">
+        <label class="field-label">Known tables or objects you expect to use</label>
+        <div class="field-hint">SAP table names (VBRK, KNA1, MARA...) or plain descriptions — whatever you know at this stage</div>
+        <textarea id="s3-tables" rows="3" placeholder="e.g. Customer master (KNA1/BP), billing headers (VBRK), billing items (VBRP), material master (MARA), sales org (T001W)..."></textarea>
+      </div>
+
+      <div class="section-divider">Data freshness and quality</div>
+
+      <label class="options-label">How current does this data need to be for business decisions?</label>
+      <div class="options-grid" id="opts-s3-freq">
+        <div class="opt" onclick="singleOpt(this, 'opts-s3-freq')">Real-time (intraday)</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s3-freq')">Daily overnight</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s3-freq')">Weekly</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s3-freq')">Monthly reporting cycle</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s3-freq')">On-demand only</div>
+      </div>
+
+      <label class="check-label">Known data quality issues in the source — tick all that apply</label>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>Customer/account master duplicates <span class="sub">Multiple records for the same hospital or account</span></span></li>
+        <li><input type="checkbox"><span>Product hierarchy not maintained or inconsistently used <span class="sub">Affects any product-level reporting</span></span></li>
+        <li><strong></strong><input type="checkbox"><span>Hospital usage data arrives with a lag <span class="sub">EDI feeds typically 1–4 weeks behind actual procedure date</span></span></li>
+        <li><input type="checkbox"><span>Sales rep / territory assignments not current <span class="sub">Rep changes not reflected in historical transactions</span></span></li>
+        <li><input type="checkbox"><span>Currency / pricing inconsistencies across company codes</span></li>
+        <li><input type="checkbox"><span>Manual data entry errors in order or billing documents</span></li>
+        <li><input type="checkbox"><span>Missing or incomplete cost centre assignments</span></li>
+      </ul>
+
+      <div class="field-group">
+        <label class="field-label">Other known data quality issues or source system constraints</label>
+        <textarea id="s3-quality" rows="2" placeholder="Document anything unusual about this data before you start building..."></textarea>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       STEP 4 — BUILD YOUR DATA MODEL
+  ═══════════════════════════════════════════════════ -->
+  <div class="step-card" data-step="4" id="step4">
+    <div class="step-header" onclick="toggle('step4')">
+      <div class="step-badge">4</div>
+      <div class="step-meta">
+        <div class="step-name">Build your data model</div>
+        <div class="step-desc">Transform raw data into a business-ready view</div>
+      </div>
+      <div class="step-chevron" id="chev-step4">›</div>
+    </div>
+    <div class="step-body" id="body-step4">
+      <div class="insight">
+        <span class="insight-icon">💡</span>
+        <div class="insight-content">
+          <strong>Semantic labelling is what makes a data model a data product:</strong> You can have perfect joins and clean data, but if the columns are still named KUNNR and NETWR, business users can't self-serve and SAP Analytics Cloud can't auto-interpret the model. Renaming technical fields, marking measures and dimensions, and setting semantic usage — these are the steps that separate an IT asset from a business asset.
+        </div>
+      </div>
+
+      <div class="pitfall">
+        <strong>Common mistake:</strong> Setting semantic usage as "Relational Dataset" (the default) when you should be using "Analytical Dataset" or "Fact." The semantic usage tells SAC how to interpret the model — get it wrong and measures won't aggregate correctly and dimensions won't filter properly.
+      </div>
+
+      <div class="section-divider">Model type</div>
+
+      <label class="options-label">What is the primary semantic usage of this data product? <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Fact = transactional data with measures (sales, procedures). Dimension = master data (customers, products). Analytical Dataset = pre-aggregated for reporting performance.</span></span></label>
+      <div class="options-grid" id="opts-s4-type">
+        <div class="opt" onclick="singleOpt(this, 'opts-s4-type')">Fact — transactional with measures</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s4-type')">Dimension — master / reference data</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s4-type')">Analytical Dataset — pre-aggregated</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s4-type')">Not sure — need guidance</div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Core tables you'll join in the Graphical View Builder</label>
+        <div class="field-hint">List main table + join tables. Note the join key for each — this is where data quality issues surface first.</div>
+        <textarea id="s4-joins" rows="3" placeholder="e.g. VBRK (billing header) joined to VBRP (billing items) on VBELN, joined to KNA1 (customer) on KUNNR, joined to MARA (material) on MATNR..."></textarea>
+      </div>
+
+      <div class="section-divider">Measures — what you'll count, sum or calculate</div>
+
+      <label class="check-label">Select the measures in your data product</label>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>Net revenue / net sales value <span class="sub">NETWR — apply currency conversion if multi-currency</span></span></li>
+        <li><input type="checkbox"><span>Gross revenue / gross billing value</span></li>
+        <li><input type="checkbox"><span>Gross margin / margin % <span class="sub">Requires cost data — confirm COGS source before committing to this</span></span></li>
+        <li><input type="checkbox"><span>Units sold / quantity billed <span class="sub">FKIMG — check unit of measure consistency across products</span></span></li>
+        <li><input type="checkbox"><span>Procedure / case count <span class="sub">If you have procedure-level data — not available from billing alone</span></span></li>
+        <li><input type="checkbox"><span>Loan set utilisation rate <span class="sub">Requires instrument movement data — typically not in standard SAP billing</span></span></li>
+        <li><input type="checkbox"><span>Clinical education hours / event count</span></li>
+        <li><input type="checkbox"><span>Days on hand / stock coverage</span></li>
+        <li><input type="checkbox"><span>Prior year / budget variance <span class="sub">Requires a second data source for plan/budget data</span></span></li>
+      </ul>
+
+      <div class="field-group">
+        <label class="field-label">Calculated measures (formulas you'll need to build)</label>
+        <div class="field-hint">Document business rules that aren't standard SAP fields — these need explicit logic in the view.</div>
+        <textarea id="s4-calc" rows="2" placeholder="e.g. Revenue excluding returns and credits, YTD vs. PYTD growth %, margin after hospital rebates..."></textarea>
+      </div>
+
+      <div class="section-divider">Dimensions — how you'll slice the data</div>
+
+      <label class="check-label">Select the dimensions in your data product</label>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>Customer / hospital / account <span class="sub">Include customer group and account tier if maintained</span></span></li>
+        <li><input type="checkbox"><span>Product / material <span class="sub">Include product hierarchy (brand, category, subcategory)</span></span></li>
+        <li><input type="checkbox"><span>Surgical specialty <span class="sub">May need to derive from product hierarchy or custom field</span></span></li>
+        <li><input type="checkbox"><span>Sales representative <span class="sub">Align to current territory assignment, not historical billing rep</span></span></li>
+        <li><input type="checkbox"><span>Sales organisation / distribution channel</span></li>
+        <li><input type="checkbox"><span>Geographic region / state / territory</span></li>
+        <li><input type="checkbox"><span>Time — fiscal period, calendar month, quarter, year</span></li>
+        <li><input type="checkbox"><span>Company code / legal entity</span></li>
+        <li><input type="checkbox"><span>Customer segment / hospital type (public/private)</span></li>
+        <li><input type="checkbox"><span>Consignment location / warehouse</span></li>
+      </ul>
+
+      <div class="section-divider">Naming and documentation</div>
+
+      <label class="check-label">Before publishing, confirm you've done all of these</label>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>Renamed all technical column names to business-readable labels <span class="sub">KUNNR → Customer Number, NETWR → Net Revenue, VKORG → Sales Org</span></span></li>
+        <li><input type="checkbox"><span>Added column descriptions to every measure and calculated field</span></li>
+        <li><input type="checkbox"><span>Marked all measures and dimensions with correct semantic type</span></li>
+        <li><input type="checkbox"><span>Validated row counts against a known report or source extract</span></li>
+        <li><input type="checkbox"><span>Checked for and resolved duplicate rows (usually a join issue)</span></li>
+        <li><input type="checkbox"><span>Business stakeholder has reviewed a sample and confirmed it looks correct</span></li>
+        <li><input type="checkbox"><span>Applied relevant filters (e.g. exclude cancelled orders, test customers, intercompany)</span></li>
+      </ul>
+
+      <div class="field-group">
+        <label class="field-label">Business rules and transformation logic to document</label>
+        <div class="field-hint">Future maintainers (including you, in 6 months) need to understand why transformations were applied.</div>
+        <textarea id="s4-rules" rows="3" placeholder="e.g. Revenue excludes document type RE (returns), currency conversion uses average monthly rate from table TCURR, inactive customers filtered by AUFSD = 'L'..."></textarea>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       STEP 5 — EXPOSE AS A DATA PRODUCT
+  ═══════════════════════════════════════════════════ -->
+  <div class="step-card" data-step="5" id="step5">
+    <div class="step-header" onclick="toggle('step5')">
+      <div class="step-badge">5</div>
+      <div class="step-meta">
+        <div class="step-name">Expose as a data product</div>
+        <div class="step-desc">Publish to the Data Marketplace so others can find and trust it</div>
+      </div>
+      <div class="step-chevron" id="chev-step5">›</div>
+    </div>
+    <div class="step-body" id="body-step5">
+      <div class="insight">
+        <span class="insight-icon">💡</span>
+        <div class="insight-content">
+          <strong>This step is what makes a data model a data product:</strong> Without publishing to the Data Marketplace, you have a well-built view that only your team knows about. The Marketplace is Datasphere's internal catalogue — it's how other teams discover, understand, and request access to your data. Think of it as an internal app store for governed data. The quality of your description, tags and documentation directly determines how much the data product gets used.
+        </div>
+      </div>
+
+      <div class="pitfall">
+        <strong>Common mistake:</strong> Treating the Data Marketplace as an afterthought. The description you write here is what a future consumer reads before deciding whether to trust your data. A vague description ("Sales data from SAP") gets ignored. A specific description ("Net revenue by account, product hierarchy and sales rep — updated daily, excludes intercompany, covers FY2022 to present") gets used.
+      </div>
+
+      <div class="section-divider">Data product identity</div>
+
+      <div class="field-group">
+        <label class="field-label">Data product name (what will appear in the Marketplace)</label>
+        <div class="field-hint">Business-readable. Specific. Avoid version numbers in the name.</div>
+        <input type="text" id="s5-name" placeholder="e.g. Account Revenue by Product and Territory  |  HCP Clinical Engagement Summary">
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Short description (2–3 sentences — what it contains, what it answers)</label>
+        <div class="field-hint">Write for someone who knows the business but hasn't seen the model. What question does this answer? What's included and excluded?</div>
+        <textarea id="s5-desc" rows="4" placeholder="e.g. Net revenue and unit volume by customer account, product category and sales representative. Covers the current and prior two financial years. Updated daily from SAP billing. Excludes intercompany transactions, returns and cancelled orders."></textarea>
+      </div>
+
+      <div class="section-divider">Metadata and discoverability</div>
+
+      <label class="check-label">Apply these tags so the data product appears in the right searches</label>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>Business domain tag <span class="sub">e.g. Commercial, Finance, Supply Chain, Clinical Education</span></span></li>
+        <li><input type="checkbox"><span>Geographic scope tag <span class="sub">e.g. ANZ, APAC, Global, Australia Only</span></span></li>
+        <li><input type="checkbox"><span>Regulatory / compliance tag <span class="sub">e.g. SOX-relevant, TGA-sensitive, Contains PII, GDPR</span></span></li>
+        <li><input type="checkbox"><span>Source system tag <span class="sub">e.g. S/4HANA, Salesforce, BW/4HANA</span></span></li>
+        <li><input type="checkbox"><span>Data freshness tag <span class="sub">e.g. Real-time, Daily, Monthly</span></span></li>
+      </ul>
+
+      <div class="section-divider">Access controls</div>
+
+      <label class="options-label">How will access to this data product be managed?</label>
+      <div class="options-grid" id="opts-s5-access">
+        <div class="opt" onclick="singleOpt(this, 'opts-s5-access')">Open — any authenticated user</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s5-access')">Request-based — approval required</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s5-access')">Restricted — named individuals only</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s5-access')">Role-based — by job function</div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Who approves access requests?</label>
+        <input type="text" id="s5-approver" placeholder="Named approver — ideally the space/data owner from Step 2">
+      </div>
+
+      <div class="section-divider">SLA and data contract</div>
+
+      <label class="check-label">What commitments are you making to consumers of this data product?</label>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>Refresh schedule <span class="sub">When does data update? Who monitors failures? What's the SLA?</span></span></li>
+        <li><input type="checkbox"><span>Data quality owner <span class="sub">Named person who investigates data issues raised by consumers</span></span></li>
+        <li><input type="checkbox"><span>Breaking change notification <span class="sub">How will you notify consumers before schema or logic changes?</span></span></li>
+        <li><input type="checkbox"><span>Historical data coverage <span class="sub">How far back does the data go? Is there a retention policy?</span></span></li>
+        <li><input type="checkbox"><span>Known limitations documented <span class="sub">Be explicit about what this data product cannot answer — prevents misuse</span></span></li>
+      </ul>
+
+      <div class="field-group">
+        <label class="field-label">Known limitations and what this data product cannot answer</label>
+        <div class="field-hint">Explicitly documenting limitations is a sign of maturity — it builds trust, not doubt.</div>
+        <textarea id="s5-limits" rows="2" placeholder="e.g. Does not include consignment stock, procedure-level data not available, no competitor pricing, margin % requires separate COGS data product..."></textarea>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       STEP 6 — CONSUME IT
+  ═══════════════════════════════════════════════════ -->
+  <div class="step-card" data-step="6" id="step6">
+    <div class="step-header" onclick="toggle('step6')">
+      <div class="step-badge">6</div>
+      <div class="step-meta">
+        <div class="step-name">Consume it</div>
+        <div class="step-desc">Connect your data product to the tools your teams actually use</div>
+      </div>
+      <div class="step-chevron" id="chev-step6">›</div>
+    </div>
+    <div class="step-body" id="body-step6">
+      <div class="insight">
+        <span class="insight-icon">💡</span>
+        <div class="insight-content">
+          <strong>A data product only has value when it's consumed:</strong> The whole point of building a governed, semantic data product is that any tool — SAC, Databricks, Power BI, Snowflake — can connect to it and inherit the business labels, governance and trust you've built in. You build once. You consume everywhere.
+        </div>
+      </div>
+
+      <div class="pitfall">
+        <strong>Common mistake:</strong> Building a data product and then recreating all the business logic again in SAC or Power BI. If your transformation logic lives in the BI tool, you don't have a data product — you have a report. Logic belongs in the data model. The consumption layer should be thin: visualisation only.
+      </div>
+
+      <div class="section-divider">Primary consumption tool</div>
+
+      <label class="options-label">Where will this data product primarily be consumed?</label>
+      <div class="options-grid" id="opts-s6-tool">
+        <div class="opt" onclick="toggleOpt(this)">SAP Analytics Cloud (SAC)</div>
+        <div class="opt" onclick="toggleOpt(this)">Microsoft Power BI</div>
+        <div class="opt" onclick="toggleOpt(this)">Databricks (data science / ML)</div>
+        <div class="opt" onclick="toggleOpt(this)">Snowflake</div>
+        <div class="opt" onclick="toggleOpt(this)">Microsoft Fabric</div>
+        <div class="opt" onclick="toggleOpt(this)">Excel (via OData)</div>
+        <div class="opt" onclick="toggleOpt(this)">Tableau</div>
+        <div class="opt" onclick="toggleOpt(this)">Not yet decided</div>
+      </div>
+
+      <div class="section-divider">SAP Analytics Cloud — if applicable</div>
+
+      <label class="options-label">SAC connection type</label>
+      <div class="options-grid" id="opts-s6-sac">
+        <div class="opt" onclick="singleOpt(this, 'opts-s6-sac')">Live connection (real-time, recommended)</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s6-sac')">Import / acquired model</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s6-sac')">Both — depending on report</div>
+        <div class="opt" onclick="singleOpt(this, 'opts-s6-sac')">Not using SAC</div>
+      </div>
+
+      <label class="check-label">SAC story / report readiness checklist</label>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>Semantic labels from Datasphere auto-populate in SAC model <span class="sub">If not, check that measures and dimensions were correctly set in Step 4</span></span></li>
+        <li><input type="checkbox"><span>Hierarchies (product, org, time) display correctly in SAC</span></li>
+        <li><input type="checkbox"><span>Currency conversion and unit of measure handled consistently</span></li>
+        <li><input type="checkbox"><span>Row-level security configured if needed <span class="sub">e.g. Sales reps should only see their own territory data</span></span></li>
+        <li><input type="checkbox"><span>Story / dashboard validated against a known "source of truth" report <span class="sub">Get sign-off from business stakeholder before releasing broadly</span></span></li>
+      </ul>
+
+      <div class="section-divider">Third-party and AI consumption</div>
+
+      <label class="check-label">Planned future consumption beyond the first BI report</label>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>Databricks — for data science, forecasting or ML on SAP data <span class="sub">BDC Connect for Databricks — zero-copy Delta Sharing</span></span></li>
+        <li><input type="checkbox"><span>Snowflake — for enterprise analytics or external data sharing <span class="sub">BDC Connect for Snowflake — zero-copy access</span></span></li>
+        <li><input type="checkbox"><span>Microsoft Fabric — Power BI, Excel, AI Foundry <span class="sub">Planned GA Q3 2026 — worth planning for now</span></span></li>
+        <li><input type="checkbox"><span>SAP Joule / AI agents <span class="sub">Governed, semantic data products are the foundation Joule needs to give reliable answers</span></span></li>
+        <li><input type="checkbox"><span>External partners / hospitals <span class="sub">Via Data Marketplace with external access controls</span></span></li>
+      </ul>
+
+      <div class="section-divider">Adoption and change management</div>
+
+      <div class="field-group">
+        <label class="field-label">What existing report, spreadsheet or process does this data product replace?</label>
+        <div class="field-hint">Named with the people currently maintaining it — they become your adoption allies, not blockers.</div>
+        <textarea id="s6-replace" rows="2" placeholder="e.g. The Monday morning Excel revenue file that Sarah in finance sends to the exec team, the Salesforce report that takes 2 hours to pull manually..."></textarea>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Planned adoption approach</label>
+        <div class="field-hint">How will you move users from the old way to the new data product?</div>
+        <textarea id="s6-adoption" rows="2" placeholder="e.g. Run old and new in parallel for one month, train the team in SAC, decommission the Excel file at end of Q2..."></textarea>
+      </div>
+
+      <label class="check-label">Go-live readiness</label>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>Business stakeholder has signed off on data accuracy</span></li>
+        <li><input type="checkbox"><span>Access requests from first consumers have been processed</span></li>
+        <li><input type="checkbox"><span>Data product is published in the Marketplace with complete documentation</span></li>
+        <li><input type="checkbox"><span>Refresh schedule is running and monitored</span></li>
+        <li><input type="checkbox"><span>Feedback channel exists (who do consumers contact if something looks wrong?)</span></li>
+        <li><input type="checkbox"><span>Version 2 backlog exists — what's in the next iteration?</span></li>
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       SUMMARY SECTION
+  ═══════════════════════════════════════════════════ -->
+  <div class="summary-section">
+    <div class="summary-title">Your readiness summary</div>
+    <p class="summary-body">Click the button below to generate a plain-text summary of your inputs across all six steps. You can copy this into an email, a project brief, or share it with your implementation partner as a starting point for scoping a Datasphere engagement.</p>
+    <div class="summary-output" id="summary-out"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="generateSummary()">Generate my summary</button>
+      <button class="btn btn-secondary" onclick="copySummary()">Copy to clipboard</button>
+      <button class="btn btn-secondary" onclick="window.print()">Print / save as PDF</button>
+    </div>
+    <div style="margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid var(--border);">
+      <div style="font-size:13px;color:var(--ink-2);line-height:1.7;">
+        <strong style="color:var(--ink);font-weight:500;">Want to take this further?</strong> Once you have a clear picture of your first data product, the next step is a scoping conversation — typically a 2-hour workshop with your business and IT stakeholders to validate the design and build an implementation roadmap. Bruce Dando and the Emphasys team specialise in Datasphere data product design and delivery for SAP customers in Australia and New Zealand.
+      </div>
+      <div style="margin-top:0.75rem;display:flex;gap:10px;flex-wrap:wrap;">
+        <a href="https://www.linkedin.com/in/bruce-dando-b507a429" target="_blank" class="btn btn-secondary" style="font-size:13px;">Connect on LinkedIn</a>
+        <a href="mailto:bruce.dando@emphasys.com.au?subject=Datasphere Data Product Discussion" class="btn btn-primary" style="font-size:13px;">Get in touch</a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Empha<span>sys</span></div>
+      <div class="footer-meta">SAP Gold Partner · Data &amp; Intelligence Practice<br>Bruce Dando — Director of Data &amp; Intelligence</div>
+    </div>
+    <a href="mailto:bruce.dando@emphasys.com.au?subject=Datasphere Data Product Discussion" class="footer-cta">Start a conversation →</a>
+  </div>
+</footer>
+
+<script>
+  // Track which steps have been interacted with
+  var stepTouched = { step1: false, step2: false, step3: false, step4: false, step5: false, step6: false };
+
+  function toggle(id) {
+    var body = document.getElementById('body-' + id);
+    var chev = document.getElementById('chev-' + id);
+    var isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    chev.classList.toggle('open', !isOpen);
+    if (!isOpen) {
+      stepTouched[id] = true;
+      updateProgress();
+    }
+  }
+
+  function openStep(id) {
+    var body = document.getElementById('body-' + id);
+    var chev = document.getElementById('chev-' + id);
+    body.classList.add('open');
+    chev.classList.add('open');
+    stepTouched[id] = true;
+    updateProgress();
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function updateProgress() {
+    var count = Object.values(stepTouched).filter(Boolean).length;
+    var pct = Math.round((count / 6) * 100);
+    document.getElementById('gp-fill').style.width = pct + '%';
+    var labels = ['Start by opening Step 1 below', 'Step 1 of 6 started — keep going', '2 of 6 steps started', '3 of 6 — halfway there', '4 of 6 steps done', '5 of 6 — nearly complete', 'All 6 steps covered — generate your summary'];
+    document.getElementById('gp-label').textContent = labels[count];
+    document.getElementById('hdr-prog-text').textContent = count + ' of 6 steps';
+    var steps = ['step1','step2','step3','step4','step5','step6'];
+    steps.forEach(function(s, i) {
+      var el = document.getElementById('gs' + (i+1));
+      var dot = document.getElementById('pd' + (i+1));
+      if (stepTouched[s]) {
+        el.classList.add('complete');
+        el.classList.remove('active');
+        if (dot) dot.classList.add('done');
+      }
+    });
+  }
+
+  function toggleEx(id) {
+    var el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+
+  function toggleOpt(el) {
+    el.classList.toggle('sel');
+    var card = el.closest('.step-card');
+    if (card) { stepTouched['step' + card.dataset.step] = true; updateProgress(); }
+  }
+
+  function singleOpt(el, groupId) {
+    var group = document.getElementById(groupId);
+    if (group) {
+      group.querySelectorAll('.opt').forEach(function(o) { o.classList.remove('sel'); });
+    } else {
+      el.closest('.options-grid').querySelectorAll('.opt').forEach(function(o) { o.classList.remove('sel'); });
+    }
+    el.classList.add('sel');
+    var card = el.closest('.step-card');
+    if (card) { stepTouched['step' + card.dataset.step] = true; updateProgress(); }
+  }
+
+  function getSelectedOpts(gridId) {
+    var grid = document.getElementById(gridId);
+    if (!grid) return 'Not specified';
+    var sel = Array.from(grid.querySelectorAll('.sel')).map(function(o) { return o.textContent.trim(); });
+    return sel.length ? sel.join(', ') : 'Not specified';
+  }
+
+  function getChecked(bodyId) {
+    var body = document.getElementById(bodyId);
+    if (!body) return [];
+    return Array.from(body.querySelectorAll('input[type="checkbox"]:checked')).map(function(cb) {
+      var span = cb.nextElementSibling;
+      if (span) {
+        var sub = span.querySelector('.sub');
+        if (sub) { var clone = span.cloneNode(true); clone.querySelector('.sub').remove(); return clone.textContent.trim(); }
+        return span.textContent.trim();
+      }
+      return '';
+    }).filter(Boolean);
+  }
+
+  function val(id) {
+    var el = document.getElementById(id);
+    return el && el.value.trim() ? el.value.trim() : 'Not filled in';
+  }
+
+  function generateSummary() {
+    var lines = [];
+    lines.push('DATA PRODUCT READINESS SUMMARY');
+    lines.push('Generated: ' + new Date().toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' }));
+    lines.push('');
+
+    lines.push('── STEP 1: DEFINE YOUR BUSINESS ENTITY ──────────────────');
+    lines.push('Business question: ' + val('s1-decision'));
+    lines.push('Entity name: ' + val('s1-entity'));
+    lines.push('Stakeholder owner: ' + val('s1-owner'));
+    lines.push('Primary consumers: ' + getSelectedOpts('opts-s1-consumer'));
+    lines.push('Time grain: ' + getSelectedOpts('opts-s1-grain'));
+    lines.push('Out of scope (v1): ' + val('s1-outofscope'));
+    lines.push('Success criteria: ' + val('s1-success'));
+    lines.push('');
+
+    lines.push('── STEP 2: CREATE A SPACE ────────────────────────────────');
+    lines.push('Business domain: ' + getSelectedOpts('opts-s2-domain'));
+    lines.push('Space name: ' + val('s2-spacename'));
+    lines.push('Space owner: ' + val('s2-spaceowner'));
+    lines.push('Named users (week 1): ' + val('s2-users'));
+    lines.push('Data sensitivity: ' + (getChecked('body-step2').length ? getChecked('body-step2').join('; ') : 'None flagged'));
+    lines.push('Expected data volume: ' + getSelectedOpts('opts-s2-vol'));
+    lines.push('');
+
+    lines.push('── STEP 3: CONNECT YOUR SOURCE ──────────────────────────');
+    lines.push('Primary SAP system: ' + getSelectedOpts('opts-s3-sap'));
+    lines.push('Connection method: ' + getSelectedOpts('opts-s3-conn'));
+    lines.push('Non-SAP sources: ' + (getChecked('body-step3').slice(0, 7).length ? getChecked('body-step3').slice(0, 7).join(', ') : 'None identified'));
+    lines.push('Known tables / objects: ' + val('s3-tables'));
+    lines.push('Data freshness requirement: ' + getSelectedOpts('opts-s3-freq'));
+    lines.push('Data quality issues: ' + val('s3-quality'));
+    lines.push('');
+
+    lines.push('── STEP 4: BUILD YOUR DATA MODEL ────────────────────────');
+    lines.push('Semantic usage type: ' + getSelectedOpts('opts-s4-type'));
+    lines.push('Core table joins: ' + val('s4-joins'));
+    lines.push('Calculated measures: ' + val('s4-calc'));
+    lines.push('Business rules / transformations: ' + val('s4-rules'));
+    lines.push('');
+
+    lines.push('── STEP 5: EXPOSE AS A DATA PRODUCT ─────────────────────');
+    lines.push('Data product name: ' + val('s5-name'));
+    lines.push('Description: ' + val('s5-desc'));
+    lines.push('Access model: ' + getSelectedOpts('opts-s5-access'));
+    lines.push('Access approver: ' + val('s5-approver'));
+    lines.push('Known limitations: ' + val('s5-limits'));
+    lines.push('');
+
+    lines.push('── STEP 6: CONSUME IT ───────────────────────────────────');
+    lines.push('Primary consumption tool(s): ' + getSelectedOpts('opts-s6-tool'));
+    lines.push('SAC connection type: ' + getSelectedOpts('opts-s6-sac'));
+    lines.push('Replaces: ' + val('s6-replace'));
+    lines.push('Adoption plan: ' + val('s6-adoption'));
+    lines.push('');
+    lines.push('─────────────────────────────────────────────────────────');
+    lines.push('Produced using the Emphasys Data Product Readiness Worksheet');
+    lines.push('Contact: bruce.dando@emphasys.com.au | emphasys.com.au');
+
+    var out = document.getElementById('summary-out');
+    out.textContent = lines.join('\n');
+    out.classList.add('visible');
+    out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function copySummary() {
+    var out = document.getElementById('summary-out');
+    if (!out.textContent.trim()) { generateSummary(); }
+    navigator.clipboard.writeText(out.textContent).then(function() {
+      var btn = event.target;
+      var orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; }, 2000);
+    }).catch(function() {
+      out.select && out.select();
+      document.execCommand && document.execCommand('copy');
+    });
+  }
+
+  // Track text input changes for progress
+  document.addEventListener('input', function(e) {
+    if (e.target.tagName === 'TEXTAREA' || e.target.type === 'text') {
+      var card = e.target.closest('.step-card');
+      if (card) { stepTouched['step' + card.dataset.step] = true; updateProgress(); }
+    }
+  });
+  document.addEventListener('change', function(e) {
+    if (e.target.type === 'checkbox') {
+      var card = e.target.closest('.step-card');
+      if (card) { stepTouched['step' + card.dataset.step] = true; updateProgress(); }
+    }
+  });
+</script>
+</body>
+</html>
