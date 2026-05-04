@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Data Product Readiness — SAP Datasphere</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -28,6 +28,7 @@
     --s4: #7a2d5e; --s4-bg: #f4e6ef; --s4-mid: #a84d82;
     --s5: #5a1e8a; --s5-bg: #ede6f4; --s5-mid: #8447b8;
     --s6: #1e7a6e; --s6-bg: #e4f4f2; --s6-mid: #3da899;
+    --nav-h: 60px;
     --radius: 10px;
     --radius-sm: 6px;
   }
@@ -753,9 +754,9 @@
 <!-- HEADER -->
 <header class="site-header">
   <div class="header-inner">
-    <div class="header-brand">
-      <span class="header-logo">Empha<span>sys</span></span>
-      <span class="header-tag">SAP Data &amp; Intelligence</span>
+    <div class="header-brand" style="gap:0;">
+      <a href="https://brucedando.com" style="text-decoration:none;"><span class="header-logo" style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--ink);">Bruce <span style="color:var(--accent);">Dando</span></span></a>
+      <a href="https://brucedando.com/#tools" style="text-decoration:none;font-size:13px;color:var(--ink-3);font-family:'Inter',sans-serif;">‹ Back to Tools</a>
     </div>
     <div class="progress-strip">
       <span id="hdr-prog-text" style="font-size:12px;color:var(--ink-3);">0 of 6 steps</span>
@@ -1387,11 +1388,11 @@
     </div>
     <div style="margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid var(--border);">
       <div style="font-size:13px;color:var(--ink-2);line-height:1.7;">
-        <strong style="color:var(--ink);font-weight:500;">Want to take this further?</strong> Once you have a clear picture of your first data product, the next step is a scoping conversation — typically a 2-hour workshop with your business and IT stakeholders to validate the design and build an implementation roadmap. Bruce Dando and the Emphasys team specialise in Datasphere data product design and delivery for SAP customers in Australia and New Zealand.
+        <strong style="color:var(--ink);font-weight:500;">Want to take this further?</strong> Once you have a clear picture of your first data product, the next step is a scoping conversation — typically a 2-hour workshop with your business and IT stakeholders to validate the design and build an implementation roadmap. Bruce Dando specialises in Datasphere data product design and delivery for SAP customers in Australia and New Zealand.
       </div>
       <div style="margin-top:0.75rem;display:flex;gap:10px;flex-wrap:wrap;">
         <a href="https://www.linkedin.com/in/bruce-dando-b507a429" target="_blank" class="btn btn-secondary" style="font-size:13px;">Connect on LinkedIn</a>
-        <a href="mailto:bruce.dando@emphasys.com.au?subject=Datasphere Data Product Discussion" class="btn btn-primary" style="font-size:13px;">Get in touch</a>
+        <a href="https://brucedando.com/#contact" class="btn btn-primary" style="font-size:13px;">Get in touch →</a>
       </div>
     </div>
   </div>
@@ -1402,10 +1403,10 @@
 <footer class="site-footer">
   <div class="footer-inner">
     <div>
-      <div class="footer-brand">Empha<span>sys</span></div>
-      <div class="footer-meta">SAP Gold Partner · Data &amp; Intelligence Practice<br>Bruce Dando — Director of Data &amp; Intelligence</div>
+      <div class="footer-brand" style="font-family:'Playfair Display',serif;font-weight:700;">Bruce <span>Dando</span></div>
+      <div class="footer-meta">Data, AI &amp; SAP Strategy<br>brucedando.com</div>
     </div>
-    <a href="mailto:bruce.dando@emphasys.com.au?subject=Datasphere Data Product Discussion" class="footer-cta">Start a conversation →</a>
+    <a href="https://brucedando.com/#contact" class="footer-cta">Get in touch →</a>
   </div>
 </footer>
 
@@ -1559,8 +1560,8 @@
     lines.push('Adoption plan: ' + val('s6-adoption'));
     lines.push('');
     lines.push('─────────────────────────────────────────────────────────');
-    lines.push('Produced using the Emphasys Data Product Readiness Worksheet');
-    lines.push('Contact: bruce.dando@emphasys.com.au | emphasys.com.au');
+    lines.push('Produced using the Data Product Readiness Worksheet — brucedando.com');
+    lines.push('Contact: brucedando@gmail.com | brucedando.com');
 
     var out = document.getElementById('summary-out');
     out.textContent = lines.join('\n');
